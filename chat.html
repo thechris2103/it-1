@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="chat.css">
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-firestore.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyAj_nzdbt3MMDATU7Z40UROp2RDBH_6wAw",
+        authDomain: "film-imdb-f971f.firebaseapp.com",
+        databaseURL: "https://film-imdb-f971f.firebaseio.com",
+        projectId: "film-imdb-f971f",
+        storageBucket: "film-imdb-f971f.appspot.com",
+        messagingSenderId: "255168706938",
+        appId: "1:255168706938:web:a90ef2591b1bdaa535bec3"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+  </head>
+  <body>
+    <div id="divinput">
+      <input type="text" id="inpNavn" placeholder="Brukernavn">
+      <input type="text" id="inpMeld" placeholder="Skriv Meldinger her">
+      <button type="button" id="btnMeld" onclick="LeggTilMeld()">Send!</button>
+      <button type="button" id="btnSlett" onclick="slettHistorikk">Fjern meldinghistorikk</button>
+    </div>
+
+    <div id="Meldinger"></div>
+    <script type="text/javascript">
+    //html Referanser
+    const inpNavn = document.querySelector("#inpNavn");
+    const inpMeld = document.querySelector("#inpMeld");
+    const divMeld = document.querySelector("#Meldinger");
+
+    //database referanser
+    const db = firebase.firestore();
+    const chat =db.collection("chat");
+
+    //Spørringer
+    chat.onSnapshot(snapshot => skrivResultat(snapshot));
+
+    function LeggTilMeld(){
+      chat.add({
+        fra: inpNavn.value,
+        tekst: inpMeld.value
+      })
+    }
+    function skrivResultat(snapshot){
+      snapshot.docChanges().forEach((element) => lagHTML(element.doc.data()))
+    }
+
+    function lagHTML(tekst){
+      console.log(tekst);
+      divMeld.innerHTML += `
+        <section class="tekst">
+        <p>Navn:${tekst["fra"]}</p>
+        <p>Kommentar:${tekst["tekst"]}</p>
+        </section>
+      `;
+    }
+    </script>
+
+  </body>
+</html>
