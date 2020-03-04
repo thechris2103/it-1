@@ -31,7 +31,7 @@
       <input type="text" id="inpNavn" placeholder="Brukernavn">
       <input type="text" id="inpMeld" placeholder="Skriv Meldinger her">
       <button type="button" id="btnMeld" onclick="LeggTilMeld()">Send!</button>
-      <button type="button" id="btnSlett" onclick="slettHistorikk">Fjern meldinghistorikk</button>
+      <button type="button" id="btnSlett" onclick="slettHistorikk()">Fjern meldinghistorikk</button>
     </div>
 
     <div id="Meldinger"></div>
@@ -66,6 +66,10 @@
         <p>Kommentar:${tekst["tekst"]}</p>
         </section>
       `;
+    }
+
+    function slettHistorikk(){
+      divMeld.innerHTML = "";
     }
     </script>
 
